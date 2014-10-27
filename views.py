@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse
+from django.db.models import Count
 from django.views.generic import (CreateView, UpdateView, DeleteView,
 								  FormView, DetailView, ListView)
 
@@ -16,7 +17,7 @@ class ListGroupView(ListView):
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(ListGroupView, self).get_context_data(*args, **kwargs)
-		context['boards'] = Board.objects
+		context['boards'] = Board.objects.all().annotate(num_topic=Count('topic'))
 		return context
 
 
@@ -29,8 +30,9 @@ class DetailBoardView(DetailView):
 
 	def get_context_data(self, *args, **kwargs):
 		context = super(DetailBoardView, self).get_context_data(*args, **kwargs)
-		context['topics'] = Topic.objects.filter(board=self.get_object().id)
-		context['counts'] = Topic.objects.annotate(post=Count('post'))
+		context['topics'] = Topic.objects.filter(
+				board=self.get_object().id
+			).annotate(num_post=Count('post'))
 		return context
 
 

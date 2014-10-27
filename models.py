@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.db import models
 
 # Create your models here.
@@ -50,7 +51,7 @@ class Post(models.Model):
 
 	# Relations
 	topic = models.ForeignKey(Topic)
-	reply = models.ForeignKey(Post, blank=True, null=True)
+	reply = models.ForeignKey('self', blank=True, null=True)
 	user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
 	# Model Methods

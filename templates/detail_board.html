@@ -2,7 +2,11 @@
 
 {% block body %}
 	{{ board.name }}
-	{% for topic in topics %}
-		<a href="{{ topic.get_absolute_url }}">{{ topic.name }}</a>
-	{% endfor %}
+	<ul>
+		{% for topic in topics %}
+		<li>
+			<a href="{{ topic.get_absolute_url }}">{{ topic.subject }}</a>
+		</li>
+		{% endfor %}
+	</ul>
 {% endblock %}

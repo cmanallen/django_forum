@@ -5,9 +5,14 @@
 	{% for group in object_list %}
 		{{ group.name }}
 		{% for board in boards %}
-			{% if group is board.group %}
-			{{ board }}
+		<ul>
+			{% if group.id == board.group.id %}
+			<li>
+				<a href="{{ board.get_absolute_url }}">{{ board.name }}</a>
+				{{ board.num_topic }}
+			</li>
 			{% endif %}
+		</ul>
 		{% endfor %}
 	{% endfor %}
 {% endblock %}
