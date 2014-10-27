@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+	{% for group in object_list %}
+		{{ group.name }}
+		{% for board in boards %}
+			{% if group is board.group %}
+			{{ board }}
+			{% endif %}
+		{% endfor %}
+	{% endfor %}
+{% endblock %}

@@ -6,6 +6,7 @@ from .forms import PostForm
 from .models import Group, Board, Topic, Post
 from .mixins import LoginRequiredMixin
 
+
 class ListGroupView(ListView):
 	"""
 	List all groups with their boards
@@ -18,6 +19,7 @@ class ListGroupView(ListView):
 		context['boards'] = Board.objects
 		return context
 
+
 class DetailBoardView(DetailView):
 	"""
 	List all Topic objects available to Board
@@ -28,7 +30,9 @@ class DetailBoardView(DetailView):
 	def get_context_data(self, *args, **kwargs):
 		context = super(DetailBoardView, self).get_context_data(*args, **kwargs)
 		context['topics'] = Topic.objects.filter(board=self.get_object().id)
+		context['counts'] = Topic.objects.annotate(post=Count('post'))
 		return context
+
 
 class DetailTopicView(DetailView):
 	"""
@@ -42,12 +46,14 @@ class DetailTopicView(DetailView):
 		context['posts'] = Post.objects.filter(topic=self.get_object().id)
 		return context
 
+
 class CreateTopicView(CreateView):
 	model = Topic
 	template_name = 'manage_topic.html'
 
 	def get_success_url(self):
 		return reverse('detail-topic', kwargs={'pk', self.get_object().id})
+
 
 class UpdateTopicView(UpdateView):
 	model = Topic
@@ -56,12 +62,14 @@ class UpdateTopicView(UpdateView):
 	def get_success_url(self):
 		return reverse('detail-topic', kwargs={'pk', self.get_object().id})
 
+
 class DeleteTopicView(DeleteView):
 	model = Topic
 	template_name = 'manage_topic.html'
 
 	def get_success_url(self):
 		return reverse('list-topic')
+
 
 class PostView(FormView):
 	template_name = 'manage_post.html'

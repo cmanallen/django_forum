@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block body %}
+	{{ board.name }}
+	{% for topic in topics %}
+		<a href="{{ topic.get_absolute_url }}">{{ topic.name }}</a>
+	{% endfor %}
+{% endblock %}
